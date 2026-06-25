@@ -1,7 +1,19 @@
 const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+require("./config/db");
 
 const app = express();
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Welcome to SPTT Membership API 🚀");
+});
+
+// Test Route
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -9,6 +21,10 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Port
+const PORT = process.env.PORT || 5000;
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
