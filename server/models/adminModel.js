@@ -28,7 +28,14 @@ const createAdmin = (
     );
 };
 
+const getAdminByEmail = (email, callback) => {
+    const query = "SELECT * FROM admins WHERE email = ?";
+
+    db.query(query, [email], callback);
+};
+
 module.exports = {
     getAllAdmins,
-    createAdmin
+    createAdmin,
+    getAdminByEmail
 };

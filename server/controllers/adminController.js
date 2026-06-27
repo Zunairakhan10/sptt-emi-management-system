@@ -1,6 +1,12 @@
 
 const bcrypt = require("bcrypt");
-const { createAdmin, getAllAdmins } = require("../models/adminModel");
+const {
+    createAdmin,
+    getAllAdmins,
+    getAdminByEmail
+} = require("../models/adminModel");
+
+const jwt = require("jsonwebtoken");
 
 const testAdmin = (req, res) => {
     res.json({
@@ -50,8 +56,68 @@ const registerAdmin = async (req, res) => {
     }
 };
 
+const loginAdmin = (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Email and Password are required"
+        });
+    }
+
+    getAdminByEmail(email, async (err, results) => {
+        if (err) {
+            return res.status(500).json({
+                success: false,
+                message: err.message
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin not found"
+            });
+        }
+
+        const admin = results[0];
+
+        const isMatch = await bcrypt.compare(password, admin.password);
+
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Password"
+            });
+        }
+
+        const token = jwt.sign(
+            {
+                id: admin.id,
+                email: admin.email,
+                role: admin.role
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
+        res.json({
+            success: true,
+            message: "Login Successful",
+            token,
+            admin: {
+                id: admin.id,
+                full_name: admin.full_name,
+                email: admin.email,
+                role: admin.role
+            }
+        });
+    });
+};
 
 module.exports = {
     testAdmin,
-    registerAdmin
+    registerAdmin,
+    loginAdmin
 };

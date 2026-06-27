@@ -3,9 +3,11 @@ const router = express.Router();
 
 const {
     testAdmin,
-    registerAdmin
+    registerAdmin,
+    loginAdmin
 } = require("../controllers/adminController");
 
+router.post("/login", loginAdmin);
 router.get("/test", testAdmin);
 router.post("/register", registerAdmin);
 
