@@ -16,6 +16,23 @@ db.connect((err) => {
   }
 
   console.log("✅ MySQL Connected Successfully");
+  // Debug: show which server and database we're actually connected to
+  db.query(
+    "SELECT DATABASE() AS database_name, @@hostname AS hostname, @@port AS port, @@socket AS socket",
+    (err, results) => {
+      if (err) {
+        console.log("❌ Failed to fetch DB info:", err.message);
+        return;
+      }
+      const info = results && results[0] ? results[0] : {};
+      console.log("🔎 DB Info:", {
+        database: info.database_name || null,
+        hostname: info.hostname || null,
+        port: info.port || null,
+        socket: info.socket || null,
+      });
+    }
+  );
 });
 
 module.exports = db;
