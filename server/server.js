@@ -5,6 +5,7 @@ require("./config/db");
 
 const adminRoutes = require("./routes/adminRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const membershipRoutes = require("./routes/membershipRoutes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/customers", customerRoutes);
+app.use("/api/memberships", membershipRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to SPTT Membership API 🚀");
