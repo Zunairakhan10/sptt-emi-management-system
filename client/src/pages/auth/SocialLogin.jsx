@@ -11,11 +11,10 @@ const SocialLogin = () => {
 
       {/* Divider */}
 
-      <div className="flex items-center gap-4">
-
+      <div className="my-7 flex items-center gap-3">
         <div className="flex-1 h-px bg-gray-200"></div>
 
-        <span className="text-gray-500 text-sm">
+       <span className="bg-white px-3 text-sm text-gray-500">
           or continue with
         </span>
 
@@ -25,39 +24,25 @@ const SocialLogin = () => {
 
       {/* Icons */}
 
-      <div className="flex justify-center gap-5 mt-8">
+   <div className="flex justify-center gap-4 mt-7">
 
-        {[
-          FaGoogle,
-          FaFacebookF,
-          FaInstagram,
-          FaLinkedinIn,
-        ].map((Icon, index) => (
-          <button
-            key={index}
-            className="
-              w-14
-              h-14
-              rounded-2xl
-              border
-              border-gray-200
-              bg-white
-              flex
-              items-center
-              justify-center
-              text-xl
-              shadow-sm
-              hover:shadow-xl
-              hover:-translate-y-1
-              transition-all
-              duration-300
-            "
-          >
-            <Icon />
-          </button>
-        ))}
+  <button className="w-11 h-11 rounded-full bg-red-50 hover:bg-red-100 hover:scale-110 transition-all duration-300 flex items-center justify-center">
+    <FaGoogle className="text-red-500 text-lg" />
+  </button>
 
-      </div>
+  <button className="w-11 h-11 rounded-full bg-blue-50 hover:bg-blue-100 hover:scale-110 transition-all duration-300 flex items-center justify-center">
+    <FaFacebookF className="text-blue-600 text-lg" />
+  </button>
+
+  <button className="w-11 h-11 rounded-full bg-pink-50 hover:bg-pink-100 hover:scale-110 transition-all duration-300 flex items-center justify-center">
+    <FaInstagram className="text-pink-500 text-lg" />
+  </button>
+
+  <button className="w-11 h-11 rounded-full bg-sky-50 hover:bg-sky-100 hover:scale-110 transition-all duration-300 flex items-center justify-center">
+    <FaLinkedinIn className="text-sky-600 text-lg" />
+  </button>
+
+</div>
 
       {/* Footer */}
 

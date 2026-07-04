@@ -1,32 +1,39 @@
+import SoftAurora from "../../components/backgrounds/SoftAurora";
 import LoginLeftPanel from "./LoginLeftPanel";
 import LoginForm from "./LoginForm";
 
 const Login = () => {
   return (
-    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
-
-      <section className="mx-auto grid min-h-screen w-full lg:grid-cols-[45%_55%]">
-
+    <main className="relative min-h-screen overflow-x-hidden bg-[#f4f7fc] text-on-surface font-body-md">
+      <div className="relative flex min-h-screen flex-col lg:flex-row">
         {/* Left Panel */}
-        <LoginLeftPanel />
+        <aside className="relative w-full shrink-0 lg:w-[48%] lg:min-h-screen">
+          <LoginLeftPanel />
+        </aside>
 
         {/* Right Panel */}
-        <div className="relative flex items-center justify-center px-10 lg:px-16">
-
-          {/* Background Glow */}
-          <div className="absolute top-24 right-20 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl"></div>
-
-          <div className="absolute bottom-10 left-10 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl"></div>
-
-          {/* Login Form */}
-          <div className="relative z-10 w-full max-w-xl">
-            <LoginForm />
+        <section className="relative flex w-full items-center justify-center px-8 py-12 lg:w-[52%] lg:min-h-screen lg:px-16">
+          {/* SoftAurora background */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <SoftAurora
+              color1="#eef4ff"
+              color2="#b8ecff"
+              brightness={0.55}
+              speed={0.4}
+              scale={2.2}
+              enableMouseInteraction={false}
+            />
           </div>
 
-        </div>
+          {/* Soft ambient glow */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute -right-16 top-1/4 h-64 w-64 rounded-full bg-blue-200/30 blur-[80px]" />
+            <div className="absolute -left-10 bottom-1/4 h-56 w-56 rounded-full bg-cyan-200/25 blur-[70px]" />
+          </div>
 
-      </section>
-
+          <LoginForm />
+        </section>
+      </div>
     </main>
   );
 };

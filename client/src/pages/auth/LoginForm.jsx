@@ -1,94 +1,188 @@
-import LoginInput from "./LoginInput";
-import LoginButton from "./LoginButton";
-import RoleToggle from "./RoleToggle";
-import SocialLogin from "./SocialLogin";
-
+import { useState } from "react";
+import { ShieldCheck, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import logo from "../../assets/images/logo.png";
 const LoginForm = () => {
+  const [role, setRole] = useState("admin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Signing in with:", { role, email, password, rememberMe });
+    // In a real application, we would call the authentication API here.
+  };
+
   return (
-<div
-  className="
-  relative
-  w-full
-  max-w-xl
-  overflow-hidden
-  rounded-[32px]
-  border
-  border-white/40
-  bg-white/90
-  backdrop-blur-xl
-  shadow-[0_35px_80px_rgba(15,23,42,0.15)]
-  p-12
-"
->
-
-      {/* Glass Card */}
-
-     <div className="absolute -top-24 -right-24 h-60 w-60 rounded-full bg-blue-200/40 blur-3xl"></div>
-
-<div className="absolute -bottom-20 -left-20 h-52 w-52 rounded-full bg-cyan-200/40 blur-3xl"></div>
-
-<div className="relative z-10">
-
-      <div className="bg-white rounded-[32px] shadow-2xl border border-gray-100 p-10">
-
-      <h1 className="text-4xl font-black tracking-tight text-slate-900">
-    Welcome Back
-    <RoleToggle/>
-</h1>
-
-<p className="mt-3 text-slate-500 leading-7 mt-2">
-    Sign in to access your travel memberships,
-    EMI plans and payment dashboard.
-</p>
-
-        <div className="mt-10 space-y-6">
-
-          <LoginInput
-            label="Email Address"
-            type="email"
-            placeholder="Enter your email"
-          />
-
-          <LoginInput
-            label="Password"
-            type="password"
-            placeholder="Enter your password"
-          />
-
-        </div>
-
-        <div className="flex items-center justify-between mt-6">
-
-          <label className="flex items-center gap-2 text-sm">
-
-            <input type="checkbox"/>
-
-            Remember Me
-
-          </label>
-
-          <button className="text-blue-600 text-sm hover:underline">
-
-            Forgot Password?
-
-          </button>
-
-        </div>
-
-        <div className="mt-8">
-
-          <LoginButton />
-          <div className="mt-8">
-            <SocialLogin />
+    <div className="login-animate-in relative z-10 w-full max-w-[520px]">
+      <div className="login-glass-card relative overflow-hidden rounded-[24px] px-9 py-9 sm:rounded-[28px] sm:px-11 sm:py-11">
+        <div className="relative z-10">
+          {/* Logo + heading */}
+          <div className="mb-7 flex flex-col items-center pt-1">
+            <div className="mb-5 flex justify-center">
+  <img
+    src={logo}
+    alt="Spark Tour & Travel"
+    className="
+w-20
+h-20
+rounded-xl
+object-cover
+shadow-xl
+border-4
+border-white"
+/>
+</div>
+            <h2 className="text-xl font-bold tracking-tight text-[#0b1c30] sm:text-[22px]">
+              Welcome back
+            </h2>
+            <p className="mt-2 text-[13px] text-slate-500 sm:text-sm">
+              Sign in to continue to Spark Tour &amp; Travel
+            </p>
           </div>
 
+          {/* Role switch */}
+          <div className="mb-6">
+            <div className="flex rounded-full bg-slate-100 p-1">
+              <button
+                type="button"
+                onClick={() => setRole("admin")}
+                className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-[13px] font-semibold transition-all duration-300 sm:text-sm ${
+                  role === "admin"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                <span className="material-symbols-outlined text-[17px]">admin_panel_settings</span>
+                Admin
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole("customer")}
+                className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-[13px] font-semibold transition-all duration-300 sm:text-sm ${
+                  role === "customer"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                <span className="material-symbols-outlined text-[17px]">person</span>
+                Customer
+              </button>
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+            <div className="relative">
+              <Mail
+                size={16}
+                strokeWidth={2}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="login-input w-full"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="relative">
+              <Lock
+                size={16}
+                strokeWidth={2}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="login-input w-full pr-11"
+                placeholder="Enter your password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3.5 top-1/2 flex -translate-y-1/2 items-center justify-center text-slate-400 transition-colors hover:text-slate-600 focus:outline-none"
+              >
+                {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between pt-1">
+              <label className="flex cursor-pointer select-none items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="h-4 w-4 cursor-pointer rounded border-slate-300 text-blue-600 focus:ring-blue-500/25"
+                />
+                <span className="text-[13px] font-medium text-slate-600">Remember Me</span>
+              </label>
+              <a
+                href="#"
+                className="text-[13px] font-semibold text-blue-600 transition-colors hover:text-blue-700 hover:underline"
+              >
+                Forgot Password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="primary-gradient primary-gradient-hover mt-1 flex h-10 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold text-white shadow-md shadow-blue-500/20 transition-all duration-300"
+            >
+              Sign In
+              <span className="material-symbols-outlined text-[17px]">arrow_forward</span>
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-6 flex items-center gap-3">
+            <div className="h-px flex-1 bg-slate-200" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">or</span>
+            <div className="h-px flex-1 bg-slate-200" />
+          </div>
+
+          {/* Social logins */}
+          <div className="mb-5 grid grid-cols-4 gap-2.5">
+            <button type="button" className="login-social-btn" aria-label="Sign in with Google">
+              <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+              </svg>
+            </button>
+            <button type="button" className="login-social-btn" aria-label="Sign in with Facebook">
+              <svg className="h-[18px] w-[18px] fill-[#1877F2]" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </button>
+            <button type="button" className="login-social-btn" aria-label="Sign in with Instagram">
+              <svg className="h-[18px] w-[18px] fill-[#E4405F]" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </button>
+            <button type="button" className="login-social-btn" aria-label="Sign in with LinkedIn">
+              <svg className="h-[18px] w-[18px] fill-[#0077B5]" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              </svg>
+            </button>
+          </div>
+
+          <p className="text-center text-[13px] text-slate-500">
+            Don&apos;t have an account?{" "}
+            <a href="#" className="font-semibold text-blue-600 transition-colors hover:text-blue-700 hover:underline">
+              Register
+            </a>
+          </p>
         </div>
-
       </div>
-     </div>   
     </div>
-
-   
   );
 };
 
